@@ -1,1 +1,1 @@
-# sql_intro_class
+### Introduction to SQL class
