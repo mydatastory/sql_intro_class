@@ -1,1 +1,1 @@
-### Introduction to SQL class
+### Introduction to SQL
