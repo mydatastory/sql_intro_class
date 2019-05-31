@@ -1,0 +1,36 @@
+---
+title: "Selecting Data (Instructional Worksheet)"
+author: "Dan Maxwell"
+date: "`r Sys.Date()`"
+output: html_document
+header-includes: \usepackage{color}
+---
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Silently create the database connection (con) object so the lesson works.
+
+library("RSQLite")
+
+db_con <- dbConnect(drv = SQLite(), dbname = "c:/informatics/survey.db")
+```
+
+![](../fig/mydatastory_footer.png)
+
+<script src="hideOutput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="fold.css">
+
+<div class="fold s">
+</div>
+
+A simple select statement...
+
+```{sql connection = db_con, echo = FALSE}
+
+select *
+  from person
+  
+```
+
