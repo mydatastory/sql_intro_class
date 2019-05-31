@@ -6,5 +6,5 @@
   
   The original Software Carpentry episodes have been modified and/or extended to meet the specific learning goals of this class.  
   
-  #### Original Software Carpentry Course
+  ### Original Software Carpentry Course
   [sql-novice-survey](https://github.com/swcarpentry/sql-novice-survey) 
