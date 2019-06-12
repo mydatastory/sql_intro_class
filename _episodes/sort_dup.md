@@ -24,7 +24,6 @@ we can examine the `Survey` table. Data is often redundant, so queries often ret
 ~~~
 SELECT quant FROM Survey;
 ~~~
-{: .sql}
 
 |quant|
 |-----|
@@ -58,7 +57,6 @@ query:
 ~~~
 SELECT DISTINCT quant FROM Survey;
 ~~~
-{: .sql}
 
 |quant|
 |-----|
@@ -76,7 +74,6 @@ distinct *sets* of values are returned
 ~~~
 SELECT DISTINCT taken, quant FROM Survey;
 ~~~
-{: .sql}
 
 |taken|quant|
 |-----|-----|
@@ -112,7 +109,6 @@ personal name.  We can do this in SQL by adding an `ORDER BY` clause to our quer
 ~~~
 SELECT * FROM Person ORDER BY id;
 ~~~
-{: .sql}
 
 |id     |personal |family  |
 |-------|---------|--------|
@@ -135,7 +131,6 @@ We can sort in the opposite order using `DESC` (for "descending"):
 ~~~
 SELECT * FROM person ORDER BY id DESC;
 ~~~
-{: .sql}
 
 |id     |personal |family  |
 |-------|---------|--------|
@@ -149,17 +144,13 @@ SELECT * FROM person ORDER BY id DESC;
 we can use `ASC` instead of `DESC`.)
 
 In order to look at which scientist measured quantities during each visit,
-we can look again at the `Survey` table.
-We can also sort on several fields at once.
-For example,
-this query sorts results first in ascending order by `taken`,
-and then in descending order by `person`
-within each group of equal `taken` values:
+we can look again at the `Survey` table. We can also sort on several fields at once.
+For example, this query sorts results first in ascending order by `taken`,
+and then in descending order by `person` within each group of equal `taken` values:
 
 ~~~
 SELECT taken, person, quant FROM Survey ORDER BY taken ASC, person DESC;
 ~~~
-{: .sql}
 
 |taken|person|quant|
 |-----|------|-----|
@@ -196,7 +187,6 @@ removing duplicates.
 ~~~
 SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 ~~~
-{: .sql}
 
 |quant|person|
 |-----|------|
@@ -221,7 +211,6 @@ SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 > > ~~~
 > > SELECT DISTINCT dated FROM Visited;
 > > ~~~
-> > {: .sql}
 > >
 > > |dated     |
 > > |----------|
@@ -244,7 +233,6 @@ SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 > > ~~~
 > > SELECT personal, family FROM Person ORDER BY family ASC;
 > > ~~~
-> > {: .sql}
 > >
 > > |personal  |family    |
 > > |----------|----------|
