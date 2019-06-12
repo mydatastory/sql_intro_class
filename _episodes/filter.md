@@ -25,7 +25,6 @@ by using a `WHERE` clause in our query:
 ~~~
 SELECT * FROM Visited WHERE site = 'DR-1';
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -47,7 +46,6 @@ based on values in columns that aren't then displayed:
 ~~~
 SELECT id FROM Visited WHERE site = 'DR-1';
 ~~~
-{: .sql}
 
 |id   |
 |-----|
@@ -55,16 +53,14 @@ SELECT id FROM Visited WHERE site = 'DR-1';
 |622  |
 |844  |
 
-![SQL Filtering in Action](../fig/sql-filter.svg)
+![SQL Filtering in Action](../fig/sql_filter.svg)
 
 We can use many other Boolean operators to filter our data.
-For example,
-we can ask for all information from the DR-1 site collected before 1930:
+For example, we can ask for all information from the DR-1 site collected before 1930:
 
 ~~~
 SELECT * FROM Visited WHERE site = 'DR-1' AND dated < '1930-01-01';
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -80,18 +76,15 @@ SELECT * FROM Visited WHERE site = 'DR-1' AND dated < '1930-01-01';
 > and one for durations,
 > such as "31 days".
 > SQLite doesn't:
-> instead,
-> it stores dates as either text
+> instead, it stores dates as either text
 > (in the ISO-8601 standard format "YYYY-MM-DD HH:MM:SS.SSSS"),
 > real numbers
 > ([Julian days](https://en.wikipedia.org/wiki/Julian_day), the number of days since November 24, 4714 BCE),
 > or integers
 > ([Unix time](https://en.wikipedia.org/wiki/Unix_time), the number of seconds since midnight, January 1, 1970).
 > If this sounds complicated,
-> it is,
-> but not nearly as complicated as figuring out
+> it is, but not nearly as complicated as figuring out
 > [historical dates in Sweden](https://en.wikipedia.org/wiki/Swedish_calendar).
-{: .callout}
 
 If we want to find out what measurements were taken by either Lake or Roerich,
 we can combine the tests on their names using `OR`:
@@ -99,7 +92,6 @@ we can combine the tests on their names using `OR`:
 ~~~
 SELECT * FROM Survey WHERE person = 'lake' OR person = 'roe';
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -120,7 +112,6 @@ we can use `IN` to see if a value is in a specific set:
 ~~~
 SELECT * FROM Survey WHERE person IN ('lake', 'roe');
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -136,14 +127,12 @@ SELECT * FROM Survey WHERE person IN ('lake', 'roe');
 |844  |roe   |rad  |11.25  |
 
 We can combine `AND` with `OR`,
-but we need to be careful about which operator is executed first.
-If we *don't* use parentheses,
+but we need to be careful about which operator is executed first.  If we *don't* use parentheses,
 we get this:
 
 ~~~
 SELECT * FROM Survey WHERE quant = 'sal' AND person = 'lake' OR person = 'roe';
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -162,7 +151,6 @@ We probably want this instead:
 ~~~
 SELECT * FROM Survey WHERE quant = 'sal' AND (person = 'lake' OR person = 'roe');
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -182,7 +170,6 @@ place.  It can be used at the beginning, middle, or end of the string:
 ~~~
 SELECT * FROM Visited WHERE site LIKE 'DR%';
 ~~~
-{: .sql}
 
 |id   |site |dated     |
 |-----|-----|----------|
@@ -202,7 +189,6 @@ to give a second level of filtering:
 ~~~
 SELECT DISTINCT person, quant FROM Survey WHERE person = 'lake' OR person = 'roe';
 ~~~
-{: .sql}
 
 |person|quant|
 |------|-----|
@@ -231,12 +217,9 @@ not to the entire rows as they are being processed.
 > to put a subset of data in a temporary database
 > and run our queries against that,
 > or to fill a small database with synthesized records.
-> For example,
-> instead of trying our queries against an actual database of 20 million Australians,
-> we could run it against a sample of ten thousand,
-> or write a small program to generate ten thousand random (but plausible) records
-> and use that.
-{: .callout}
+> For example, instead of trying our queries against an actual database of 20 million Australians,
+> we could run it against a sample of ten thousand, or write a small program to generate ten thousand 
+> random (but plausible) records and use that.
 
 > ## Fix This Query
 >
@@ -246,7 +229,6 @@ not to the entire rows as they are being processed.
 > ~~~
 > SELECT * FROM Site WHERE (lat > -48) OR (lat < 48);
 > ~~~
-> {: .sql}
 >
 > Explain why this is wrong,
 > and rewrite the query so that it is correct.
@@ -260,9 +242,6 @@ not to the entire rows as they are being processed.
 > > ~~~
 > > SELECT * FROM Site WHERE (lat > -48) AND (lat < 48);
 > > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
 
 > ## Finding Outliers
 >
@@ -275,14 +254,11 @@ not to the entire rows as they are being processed.
 > > ~~~
 > > SELECT * FROM Survey WHERE quant = 'sal' AND ((reading > 1.0) OR (reading < 0.0));
 > > ~~~
-> > {: .sql}
 > >
 > > |taken     |person    |quant     |reading   |
 > > |----------|----------|----------|----------|
 > > |752       |roe       |sal       |41.6      |
 > > |837       |roe       |sal       |22.5      |
-> {: .solution}
-{: .challenge}
 
 > ## Matching Patterns
 >
@@ -301,5 +277,3 @@ not to the entire rows as they are being processed.
 > > 3. True because the `%` matches `bet` and the `a` matches the `a`.
 > > 4. True because the first wildcard matches `lpha` and the second wildcard matches zero characters (or vice versa).
 > > 5. True because the first wildcard matches `l` and the second wildcard matches `ha`.
-> {: .solution}
-{: .challenge}
