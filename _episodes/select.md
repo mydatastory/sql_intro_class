@@ -15,27 +15,13 @@ keypoints:
 - "Use SELECT... FROM... to get values from a database table."
 - "SQL is case-insensitive (but data is case-sensitive)."
 ---
-A [relational database]({{ site.github.url }}/reference.html#relational-database)
-is a way to store and manipulate information.
-Databases are arranged as [tables]({{ site.github.url }}/reference.html#table).
-Each table has columns (also known as [fields]({{ site.github.url }}/reference.html#fields)) that describe the data,
-and rows (also known as [records]({{ site.github.url }}/reference.html#record)) which contain the data.
+A **relational database** is a way to store and manipulate information. Databases are arranged as **tables**. Each table has columns 
+(also known as fields that describe the data, and rows (also known as **records** which contain the data.
 
-When we are using a spreadsheet,
-we put formulas into cells to calculate new values based on old ones.
-When we are using a database,
-we send commands
-(usually called [queries]({{ site.github.url }}/reference.html#query))
-to a [database manager]({{ site.github.url }}/reference.html#database-manager):
-a program that manipulates the database for us.
-The database manager does whatever lookups and calculations the query specifies,
-returning the results in a tabular form
-that we can then use as a starting point for further queries.
+When we are using a spreadsheet, we put formulas into cells to calculate new values based on old ones. When we are using a database, we send commands (usually called queries to a database manager), a program that manipulates the database for us. The database manager does whatever lookups and calculations the query specifies, returning the results in a tabular form that we can then use as a starting point for further queries.
 
-Queries are written in a language called [SQL]({{ site.github.url }}/reference.html#sql),
-which stands for "Structured Query Language".
-SQL provides hundreds of different ways to analyze and recombine data.
-We will only look at a handful of queries,
+Queries are written in a language called **SQL**, which stands for "Structured Query Language".
+SQL provides hundreds of different ways to analyze and recombine data. We will only look at a handful of queries,
 but that handful accounts for most of what scientists do.
 
 > ## Changing Database Managers
@@ -47,7 +33,6 @@ but that handful accounts for most of what scientists do.
 > However, every database manager
 > can import and export data in a variety of formats like .csv, SQL,
 > so it *is* possible to move information from one to another.
-{: .callout}
 
 > ## Getting Into and Out Of SQLite
 >
@@ -58,8 +43,7 @@ but that handful accounts for most of what scientists do.
 > $ cd /path/to/survey/data/
 > $ sqlite3 survey.db
 > ~~~
-> {: .bash}
->
+> 
 > The SQLite command is `sqlite3` and you are telling SQLite to open up
 > the `survey.db`.  You need to specify the `.db` file otherwise, SQLite
 > will open up a temporary, empty database.
@@ -67,7 +51,6 @@ but that handful accounts for most of what scientists do.
 > To get out of SQLite, type out `.exit` or `.quit`.  For some
 > terminals, `Ctrl-D` can also work.  If you forget any SQLite `.` (dot)
 > command, type `.help`.
-{: .callout}
 
 Before we get into using SQLite to select the data, let's take a look at the tables of the database we will use in our examples:
 
@@ -142,7 +125,6 @@ and two in the `Survey` table --- don't contain any actual
 data, but instead have a special `-null-` entry:
 we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 
-
 > ## Checking If Data is Available
 >
 > On the shell command line,
@@ -153,24 +135,24 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 > $ cd Desktop
 > $ ls | grep survey.db
 > ~~~
-> {: .bash}
+> 
 > ~~~
 > survey.db
 > ~~~
-> {: .output}
+> 
 >
 > If you get the same output, you can run
 >
 > ~~~
 > $ sqlite3 survey.db
 > ~~~
-> {: .bash}
+> 
 > ~~~
 > SQLite version 3.8.8 2015-01-16 12:08:06
 > Enter ".help" for usage hints.
 > sqlite>
 > ~~~
-> {: .output}
+> 
 >
 > that instructs SQLite to load the database in the `survey.db` file.
 >
@@ -183,11 +165,11 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 > ~~~
 > .tables
 > ~~~
-> {: .sql}
+> 
 > ~~~
 > Person   Site     Survey   Visited
 > ~~~
-> {: .output}
+> 
 >
 > If you didn't have the above tables, you might be curious what information was stored in each table.
 > To get more information on the tables, type `.schema` to see the SQL statements used to create the tables in the database.  The statements will have a list of the columns and the data types each column stores.
@@ -201,7 +183,6 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 > CREATE TABLE Survey (taken integer, person text, quant text, reading real);
 > CREATE TABLE Visited (id integer, site text, dated text);
 > ~~~
-> {: .output}
 >
 > The output is formatted as <**columnName** *dataType*>.  Thus we can see from the first line that the table **Person** has three columns: 
 > * **id** with type _text_
@@ -223,12 +204,9 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 >
 > To exit SQLite and return to the shell command line,
 > you can use either `.quit` or `.exit`.
-{: .callout}
 
-For now,
-let's write an SQL query that displays scientists' names.
-We do this using the SQL command `SELECT`,
-giving it the names of the columns we want and the table we want them from.
+For now, let's write an SQL query that displays scientists' names.
+We do this using the SQL command `SELECT`, giving it the names of the columns we want and the table we want them from.
 Our query and its output look like this:
 
 ~~~
@@ -250,7 +228,7 @@ We have written our commands in upper case and the names for the table and colum
 in lower case,
 but we don't have to:
 as the example below shows,
-SQL is [case insensitive]({{ site.github.url }}/reference.html#case-insensitive).
+SQL is **case insensitive**.
 
 ~~~
 SeLeCt FaMiLy, PeRsOnAl FrOm PeRsOn;
@@ -361,10 +339,8 @@ SELECT * FROM Person;
 > > CREATE TABLE Survey (taken integer, person text, quant text, reading real);
 > > CREATE TABLE Visited (id integer, site text, dated text);
 > > ~~~
-> > {: .output}
+> > 
 > > From the output, we see that the **taken** column in the **Survey** table (3rd line) is composed of integers. 
-> {: .solution}
-{: .challenge}
 
 > ## Selecting Site Names
 >
@@ -382,8 +358,6 @@ SELECT * FROM Person;
 > > |DR-1      |
 > > |DR-3      |
 > > |MSK-4     |
-> {: .solution}
-{: .challenge}
 
 > ## Query Style
 >
@@ -402,4 +376,3 @@ SELECT * FROM Person;
 > {: .sql}
 >
 > What style do you find easiest to read, and why?
-{: .challenge}
