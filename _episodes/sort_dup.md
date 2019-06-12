@@ -19,13 +19,7 @@ In beginning our examination of the Antarctic data, we want to know:
 * the sites where each scientist took measurements
 
 To determine which measurements were taken at each site,
-we can examine the `Survey` table.
-Data is often redundant,
-so queries often return redundant information.
-For example,
-if we select the quantities that have been measured
-from the `Survey` table,
-we get this:
+we can examine the `Survey` table. Data is often redundant, so queries often return redundant information.  For example, if we select the quantities that have been measured from the `Survey` table, we get this:
 
 ~~~
 SELECT quant FROM Survey;
@@ -109,15 +103,11 @@ SELECT DISTINCT taken, quant FROM Survey;
 Notice in both cases that duplicates are removed
 even if the rows they come from didn't appear to be adjacent in the database table.
 
-
 Our next task is to identify the scientists on the expedition by looking at the `Person` table.
-As we mentioned earlier,
-database records are not stored in any particular order.
-This means that query results aren't necessarily sorted,
-and even if they are,
-we often want to sort them in a different way,
-e.g., by their identifier instead of by their personal name.
-We can do this in SQL by adding an `ORDER BY` clause to our query:
+As we mentioned earlier, database records are not stored in any particular order.
+This means that query results aren't necessarily sorted, and even if they are,
+we often want to sort them in a different way, e.g., by their identifier instead of by their 
+personal name.  We can do this in SQL by adding an `ORDER BY` clause to our query:
 
 ~~~
 SELECT * FROM Person ORDER BY id;
@@ -134,15 +124,14 @@ SELECT * FROM Person ORDER BY id;
 
 By default, when we use ORDER BY
 results are sorted in ascending order of the column we specify
-(i.e.,
-from least to greatest).
+(i.e., from least to greatest).
 
 We can sort in the opposite order using `DESC` (for "descending"):
 
 > ## A note on ordering
 >
 > While it may look that the records are consistent every time we ask for them in this lesson, that is because no one has changed or modified any of the data so far. Remember to use ORDER BY if you want the rows returned to have any sort of consistent or predictable order.
-{: .callout}
+
 ~~~
 SELECT * FROM person ORDER BY id DESC;
 ~~~
@@ -158,7 +147,6 @@ SELECT * FROM person ORDER BY id DESC;
 
 (And if we want to make it clear that we're sorting in ascending order,
 we can use `ASC` instead of `DESC`.)
-
 
 In order to look at which scientist measured quantities during each visit,
 we can look again at the `Survey` table.
@@ -245,8 +233,6 @@ SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 > > |&nbsp;    |
 > > |1932-01-14|
 > > |1932-03-22|
-> {: .solution}
-{: .challenge}
 
 > ## Displaying Full Names
 >
@@ -267,5 +253,3 @@ SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 > > |Anderson  |Lake      |
 > > |Frank     |Pabodie   |
 > > |Valentina |Roerich   |
-> {: .solution}
-{: .challenge}
