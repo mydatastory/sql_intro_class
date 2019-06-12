@@ -29,10 +29,9 @@ but that handful accounts for most of what scientists do.
 > Many database managers --- Oracle,
 > IBM DB2, PostgreSQL, MySQL, Microsoft Access, and SQLite ---  understand
 > SQL but each stores data in a different way,
-> so a database created with one cannot be used directly by another.
-> However, every database manager
-> can import and export data in a variety of formats like .csv, SQL,
-> so it *is* possible to move information from one to another.
+> so a database created with one cannot be used directly by another. However, every database manager
+> can import and export data in a variety of formats like .csv, SQL, so it *is* possible to move information from 
+> one to another.
 
 > ## Getting Into and Out Of SQLite
 >
@@ -176,7 +175,7 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 > ~~~
 > .schema
 > ~~~
-> {: .sql}
+> 
 > ~~~
 > CREATE TABLE Person (id text, personal text, family text);
 > CREATE TABLE Site (name text, lat real, long real);
@@ -192,15 +191,13 @@ we'll return to these missing values [later]({{ site.github.url }}/05-null/).
 > Note: The available data types vary based on the database manager - you can search online for what data types are supported.
 >
 > You can change some SQLite settings to make the output easier to read.
-> First,
-> set the output mode to display left-aligned columns.
+> First, set the output mode to display left-aligned columns.
 > Then turn on the display of column headers.
 >
 > ~~~
 > .mode column
 > .header on
 > ~~~
-> {: .sql}
 >
 > To exit SQLite and return to the shell command line,
 > you can use either `.quit` or `.exit`.
@@ -212,7 +209,6 @@ Our query and its output look like this:
 ~~~
 SELECT family, personal FROM Person;
 ~~~
-{: .sql}
 
 |family  |personal |
 |--------|---------|
@@ -225,15 +221,11 @@ SELECT family, personal FROM Person;
 The semicolon at the end of the query
 tells the database manager that the query is complete and ready to run.
 We have written our commands in upper case and the names for the table and columns
-in lower case,
-but we don't have to:
-as the example below shows,
-SQL is **case insensitive**.
+in lower case, but we don't have to: as the example below shows, SQL is **case insensitive**.
 
 ~~~
 SeLeCt FaMiLy, PeRsOnAl FrOm PeRsOn;
 ~~~
-{: .sql}
 
 |family  |personal |
 |--------|---------|
@@ -265,7 +257,6 @@ SELECT id FROM Person
 ...>
 ...>
 ~~~
-{: .sql}
 
 This is SQL's prompt, where it is waiting for additional commands or
 for a `;` to let SQL know to finish.  This is easy to fix!  Just type
@@ -282,7 +273,6 @@ we could swap the columns in the output by writing our query as:
 ~~~
 SELECT personal, family FROM Person;
 ~~~
-{: .sql}
 
 |personal |family  |
 |---------|--------|
@@ -297,7 +287,6 @@ or even repeat columns:
 ~~~
 SELECT id, id, id FROM Person;
 ~~~
-{: .sql}
 
 |id      |id      |id      |
 |--------|--------|--------|
@@ -313,7 +302,6 @@ we can select all of the columns in a table using `*`:
 ~~~
 SELECT * FROM Person;
 ~~~
-{: .sql}
 
 |id      |personal |family  |
 |--------|---------|--------|
@@ -332,7 +320,7 @@ SELECT * FROM Person;
 > > ~~~
 > > .schema
 > > ~~~
-> > {: .sql}
+> > 
 > > ~~~
 > > CREATE TABLE Person (id text, personal text, family text);
 > > CREATE TABLE Site (name text, lat real, long real);
@@ -351,7 +339,6 @@ SELECT * FROM Person;
 > > ~~~
 > > SELECT name FROM Site;
 > > ~~~
-> > {: .sql}
 > >
 > > |name      |
 > > |----------|
@@ -366,13 +353,11 @@ SELECT * FROM Person;
 > ~~~
 > SELECT personal, family FROM person;
 > ~~~
-> {: .sql}
 >
 > or as:
 >
 > ~~~
 > select Personal, Family from PERSON;
 > ~~~
-> {: .sql}
 >
 > What style do you find easiest to read, and why?
