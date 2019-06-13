@@ -21,24 +21,22 @@ keypoints:
 
 Now that we have seen how joins work, we can see why the relational
 model is so useful and how best to use it.  The first rule is that
-every value should be [atomic]({{ site.github.url }}/reference.html#atomic), i.e., not
-contain parts that we might want to work with separately.  We store
-personal and family names in separate columns instead of putting the
-entire name in one column so that we don't have to use substring
-operations to get the name's components.  More importantly, we store
-the two parts of the name separately because splitting on spaces is
-unreliable: just think of a name like "Eloise St. Cyr" or "Jan Mikkel
-Steubart".
+every value should be atomic, not contain parts that we might want to 
+work with separately.  We store personal and family names in separate 
+columns instead of putting the entire name in one column so that we 
+don't have to use substring operations to get the name's components.  
+ore importantly, we store the two parts of the name separately because 
+splitting on spaces is unreliable: just think of a name like "Eloise St. 
+Cyr" or "Jan Mikkel Steubart".
 
 The second rule is that every record should have a unique primary key.
 This can be a serial number that has no intrinsic meaning,
 one of the values in the record (like the `id` field in the `Person` table),
-or even a combination of values:
-the triple `(taken, person, quant)` from the `Survey` table uniquely identifies every measurement.
+or even a combination of values: the triple `(taken, person, quant)` from 
+the `Survey` table uniquely identifies every measurement.
 
 The third rule is that there should be no redundant information.
-For example,
-we could get rid of the `Site` table and rewrite the `Visited` table like this:
+For example, we could get rid of the `Site` table and rewrite the `Visited` table like this:
 
 |id   |lat   |long   |dated      |
 |-----|------|-------|-----------|
@@ -97,9 +95,7 @@ the tool shapes the hand that shapes the tool.
 > > However, there is a `DATE` datatype in SQL, and dates should be stored using this format.
 > > If we need to work with the month, day, or year separately, we can use the SQL functions available for our database software
 > > (for example [`EXTRACT`](https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions050.htm) or [`STRFTIME`](http://www.sqlite.org/lang_datefunc.html) for SQLite).
-> {: .solution}
-{: .challenge}
-
+>
 > ## Identifying a Primary Key
 >
 > What is the primary key in this table?
@@ -111,5 +107,4 @@ the tool shapes the hand that shapes the tool.
 >
 > > ## Solution
 > > Latitude, longitude, and date are all required to uniquely identify the temperature record.
-> {: .solution}
-{: .challenge}
+
