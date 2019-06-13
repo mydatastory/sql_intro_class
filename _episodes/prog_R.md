@@ -47,35 +47,27 @@ If we were connecting to MySQL, DB2, or some other database,
 we would import a different library,
 but all of them provide the same functions,
 so that the rest of our program does not have to change
-(at least, not much)
-if we switch from one database to another.
+(at least, not much) if we switch from one database to another.
 
 Line 2 establishes a connection to the database.
-Since we're using SQLite,
-all we need to specify is the name of the database file.
+Since we're using SQLite, all we need to specify is the name of the database file.
 Other systems may require us to provide a username and password as well.
 
 On line 3, we retrieve the results from an SQL query.
-It's our job to make sure that SQL is properly formatted;
-if it isn't,
-or if something goes wrong when it is being executed,
-the database will report an error.
-This result is a dataframe with one row for each entry and one column for each column in the database.
+It's our job to make sure that SQL is properly formatted; if it isn't,
+or if something goes wrong when it is being executed, the database will report 
+an error. This result is a dataframe with one row for each entry and one column 
+for each column in the database.
 
 Finally, the last line closes our connection,
 since the database can only keep a limited number of these open at one time.
-Since establishing a connection takes time,
-though,
-we shouldn't open a connection,
-do one operation,
-then close the connection,
-only to reopen it a few microseconds later to do another operation.
-Instead,
-it's normal to create one connection that stays open for the lifetime of the program.
+Since establishing a connection takes time, though, we shouldn't open a connection,
+do one operation, then close the connection, only to reopen it a few microseconds 
+later to do another operation.  Instead, it's normal to create one connection that 
+stays open for the lifetime of the program.
 
 Queries in real applications will often depend on values provided by users.
-For example,
-this function takes a user's ID as a parameter and returns their name:
+For example, this function takes a user's ID as a parameter and returns their name:
 
 ~~~
 library(RSQLite)
