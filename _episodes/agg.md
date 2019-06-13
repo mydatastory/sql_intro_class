@@ -47,7 +47,7 @@ SELECT min(dated) FROM Visited;
 |----------|
 |1927-02-08|
 
-![SQL Aggregation](../fig/sql-aggregation.svg)
+![SQL Aggregation](../fig/sql_aggregation.svg)
 
 ~~~
 SELECT max(dated) FROM Visited;
