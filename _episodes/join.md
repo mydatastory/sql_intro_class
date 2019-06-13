@@ -40,7 +40,6 @@ let's start by joining the `Site` and `Visited` tables:
 ~~~
 SELECT * FROM Site JOIN Visited;
 ~~~
-{: .sql}
 
 |name |lat   |long   |id   |site  |dated     |
 |-----|------|-------|-----|------|----------|
@@ -92,7 +91,6 @@ thus we need to use a filter:
 ~~~
 SELECT * FROM Site JOIN Visited ON Site.name = Visited.site;
 ~~~
-{: .sql}
 
 |name |lat   |long   |id   |site |dated     |
 |-----|------|-------|-----|-----|----------|
@@ -108,11 +106,9 @@ SELECT * FROM Site JOIN Visited ON Site.name = Visited.site;
 `ON` is very similar to `WHERE`,
 and for all the queries in this lesson you can use them interchangeably.
 There are differences in how they affect [outer joins][outer],
-but that's beyond the scope of this lesson.
-Once we add this to our query,
-the database manager throws away records
-that combined information about two different sites,
-leaving us with just the ones we want.
+but that's beyond the scope of this lesson. Once we add this to our query,
+the database manager throws away records that combined information about 
+two different sites, leaving us with just the ones we want.
 
 Notice that we used `Table.field` to specify field names
 in the output of the join.
@@ -132,7 +128,6 @@ SELECT Site.lat, Site.long, Visited.dated
 FROM   Site JOIN Visited
 ON     Site.name = Visited.site;
 ~~~
-{: .sql}
 
 |lat   |long   |dated     |
 |------|-------|----------|
@@ -147,11 +142,9 @@ ON     Site.name = Visited.site;
 
 If joining two tables is good,
 joining many tables must be better.
-In fact,
-we can join any number of tables
-simply by adding more `JOIN` clauses to our query,
-and more `ON` tests to filter out combinations of records
-that don't make sense:
+In fact, we can join any number of tables simply by adding 
+more `JOIN` clauses to our query, and more `ON` tests to 
+filter out combinations of records that don't make sense:
 
 ~~~
 SELECT Site.lat, Site.long, Visited.dated, Survey.quant, Survey.reading
@@ -160,7 +153,6 @@ ON     Site.name = Visited.site
 AND    Visited.id = Survey.taken
 AND    Visited.dated IS NOT NULL;
 ~~~
-{: .sql}
 
 |lat   |long   |dated     |quant|reading|
 |------|-------|----------|-----|-------|
@@ -183,44 +175,30 @@ AND    Visited.dated IS NOT NULL;
 |-49.85|-128.57|1932-03-22|rad  |11.25  |
 
 We can tell which records from `Site`, `Visited`, and `Survey`
-correspond with each other
-because those tables contain
-[primary keys]({{ site.github.url }}/reference.html#primary-key)
-and [foreign keys]({{ site.github.url }}/reference.html#foreign-key).
-A primary key is a value,
-or combination of values,
-that uniquely identifies each record in a table.
-A foreign key is a value (or combination of values) from one table
-that identifies a unique record in another table.
-Another way of saying this is that
-a foreign key is the primary key of one table
-that appears in some other table.
-In our database,
-`Person.id` is the primary key in the `Person` table,
-while `Survey.person` is a foreign key
-relating the `Survey` table's entries
-to entries in `Person`.
+correspond with each other because those tables contain primary keys
+and foreign keys.  A primary key is a value, or combination of values,
+that uniquely identifies each record in a table. A foreign key is a 
+value (or combination of values) from one table that identifies a 
+unique record in another table.  Another way of saying this is that
+a foreign key is the primary key of one table that appears in some 
+other table. In our database, `Person.id` is the primary key in the 
+`Person` table, while `Survey.person` is a foreign key relating the 
+`Survey` table's entries to entries in `Person`.
 
-Most database designers believe that
-every table should have a well-defined primary key.
+Most database designers believe that every table should have a well-defined primary key.
 They also believe that this key should be separate from the data itself,
-so that if we ever need to change the data,
-we only need to make one change in one place.
-One easy way to do this is
-to create an arbitrary, unique ID for each record
-as we add it to the database.
-This is actually very common:
-those IDs have names like "student numbers" and "patient numbers",
-and they almost always turn out to have originally been
-a unique record identifier in some database system or other.
-As the query below demonstrates,
+so that if we ever need to change the data, we only need to make one change in 
+one place.  One easy way to do this is to create an arbitrary, unique ID 
+for each record as we add it to the database. This is actually very common:
+those IDs have names like "student numbers" and "patient numbers", and they 
+almost always turn out to have originally been a unique record identifier in 
+some database system or other.  As the query below demonstrates,
 SQLite [automatically numbers records][rowid] as they're added to tables,
 and we can use those record numbers in queries:
 
 ~~~
 SELECT rowid, * FROM Person;
 ~~~
-{: .sql}
 
 |rowid|id      |personal |family  |
 |-----|--------|---------|--------|
@@ -243,15 +221,12 @@ SELECT rowid, * FROM Person;
  > > WHERE Site.name = 'DR-1' 
  > > AND Survey.quant = 'rad';
  > > ~~~
- > > {: .sql}
- > >
+  > >
  > > |reading   |
  > > |----------|
  > > |9.82      |
  > > |7.8       |
  > > |11.25     |
- > {: .solution}
-{: .challenge}
 
 > ## Where's Frank?
 >
@@ -266,13 +241,10 @@ SELECT rowid, * FROM Person;
  > > AND Survey.person = Person.id
  > > WHERE Person.personal = 'Frank';
  > > ~~~
- > > {: .sql}
  > >
  > > |name   |
  > > |-------|
  > > |DR-3   |
- > {: .solution}
-{: .challenge}
 
 > ## Reading Queries
 >
@@ -282,8 +254,6 @@ SELECT rowid, * FROM Person;
 > SELECT Site.name FROM Site JOIN Visited
 > ON Site.lat <- 49.0 AND Site.name = Visited.site AND Visited.dated >= '1932-01-01';
 > ~~~
-> {: .sql}
-{: .challenge}
 
 > ## Who Has Been Where?
 >
@@ -303,7 +273,6 @@ SELECT rowid, * FROM Person;
  > > AND Visited.dated IS NOT NULL
  > > ORDER BY Visited.dated;
  > > ~~~
- > > {: .sql}
  > >
  > > name   |  lat        |  long       |  personal   | family   | quant     | reading   |     dated
  > >--------|-------------|-------------|-------------|----------|-----------|-----------|-----------
@@ -322,8 +291,6 @@ SELECT rowid, * FROM Person;
  > >MSK-4   |    -48.87   |   -123.4    |  Anderson   | Lake     |   sal     |    0.21   |   1932-01-14
  > >MSK-4   |    -48.87   |   -123.4    |  Valentina  | Roerich  |   sal     |    22.5   |   1932-01-14
  > >DR-1    |    -49.85   |   -128.57   |  Valentina  | Roerich  |   rad     |    11.25  |   1932-03-22
- > {: .solution}
-{: .challenge}
 
 A good visual explanation of joins can be found [here][joinref]
 
