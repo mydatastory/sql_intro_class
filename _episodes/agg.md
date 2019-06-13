@@ -22,7 +22,6 @@ We know how to select all of the dates from the `Visited` table:
 ~~~
 SELECT dated FROM Visited;
 ~~~
-{: .sql}
 
 |dated     |
 |----------|
@@ -37,14 +36,12 @@ SELECT dated FROM Visited;
 
 but to combine them,
 we must use an [aggregation function]({{ site.github.url }}/reference.html#aggregation-function)
-such as `min` or `max`.
-Each of these functions takes a set of records as input,
+such as `min` or `max`. Each of these functions takes a set of records as input,
 and produces a single record as output:
 
 ~~~
 SELECT min(dated) FROM Visited;
 ~~~
-{: .sql}
 
 |min(dated)|
 |----------|
@@ -55,7 +52,6 @@ SELECT min(dated) FROM Visited;
 ~~~
 SELECT max(dated) FROM Visited;
 ~~~
-{: .sql}
 
 |max(dated)|
 |----------|
@@ -70,7 +66,6 @@ and `sum`:
 ~~~
 SELECT avg(reading) FROM Survey WHERE quant = 'sal';
 ~~~
-{: .sql}
 
 |avg(reading)    |
 |----------------|
@@ -79,7 +74,6 @@ SELECT avg(reading) FROM Survey WHERE quant = 'sal';
 ~~~
 SELECT count(reading) FROM Survey WHERE quant = 'sal';
 ~~~
-{: .sql}
 
 |count(reading)|
 |--------------|
@@ -88,7 +82,6 @@ SELECT count(reading) FROM Survey WHERE quant = 'sal';
 ~~~
 SELECT sum(reading) FROM Survey WHERE quant = 'sal';
 ~~~
-{: .sql}
 
 |sum(reading)|
 |------------|
@@ -102,14 +95,11 @@ since the function doesn't care about the values themselves,
 just how many values there are.
 
 SQL lets us do several aggregations at once.
-We can,
-for example,
-find the range of sensible salinity measurements:
+We can, for example, find the range of sensible salinity measurements:
 
 ~~~
 SELECT min(reading), max(reading) FROM Survey WHERE quant = 'sal' AND reading <= 1.0;
 ~~~
-{: .sql}
 
 |min(reading)|max(reading)|
 |------------|------------|
@@ -121,7 +111,6 @@ although the output might surprise you:
 ~~~
 SELECT person, count(*) FROM Survey WHERE quant = 'sal' AND reading <= 1.0;
 ~~~
-{: .sql}
 
 |person|count(\*)|
 |------|--------|
@@ -129,11 +118,9 @@ SELECT person, count(*) FROM Survey WHERE quant = 'sal' AND reading <= 1.0;
 
 Why does Lake's name appear rather than Roerich's or Dyer's?
 The answer is that when it has to aggregate a field,
-but isn't told how to,
-the database manager chooses an actual value from the input set.
-It might use the first one processed,
-the last one,
-or something else entirely.
+but isn't told how to, the database manager chooses an actual 
+value from the input set. It might use the first one processed,
+the last one, or something else entirely.
 
 Another important fact is that when there are no values to aggregate ---
 for example, where there are no rows satisfying the `WHERE` clause ---
@@ -143,7 +130,6 @@ rather than zero or some other arbitrary value:
 ~~~
 SELECT person, max(reading), sum(reading) FROM Survey WHERE quant = 'missing';
 ~~~
-{: .sql}
 
 |person|max(reading)|sum(reading)|
 |------|------------|------------|
@@ -151,23 +137,16 @@ SELECT person, max(reading), sum(reading) FROM Survey WHERE quant = 'missing';
 
 One final important feature of aggregation functions is that
 they are inconsistent with the rest of SQL in a very useful way.
-If we add two values,
-and one of them is null,
-the result is null.
-By extension,
-if we use `sum` to add all the values in a set,
-and any of those values are null,
-the result should also be null.
-It's much more useful,
-though,
-for aggregation functions to ignore null values
-and only combine those that are non-null.
+If we add two values, and one of them is null, the result is null.
+By extension, if we use `sum` to add all the values in a set,
+and any of those values are null, the result should also be null.
+It's much more useful, though, for aggregation functions to 
+ignore null values and only combine those that are non-null.
 This behavior lets us write our queries as:
 
 ~~~
 SELECT min(dated) FROM Visited;
 ~~~
-{: .sql}
 
 |min(dated)|
 |----------|
@@ -178,24 +157,21 @@ instead of always having to filter explicitly:
 ~~~
 SELECT min(dated) FROM Visited WHERE dated IS NOT NULL;
 ~~~
-{: .sql}
 
 |min(dated)|
 |----------|
 |1927-02-08|
 
 Aggregating all records at once doesn't always make sense.
-For example,
-suppose we suspect that there is a systematic bias in our data,
-and that some scientists' radiation readings are higher than others.
-We know that this doesn't work:
+For example, suppose we suspect that there is a systematic bias 
+in our data, and that some scientists' radiation readings are 
+higher than others. We know that this doesn't work:
 
 ~~~
 SELECT person, count(reading), round(avg(reading), 2)
 FROM  Survey
 WHERE quant = 'rad';
 ~~~
-{: .sql}
 
 |person|count(reading)|round(avg(reading), 2)|
 |------|--------------|----------------------|
@@ -203,8 +179,8 @@ WHERE quant = 'rad';
 
 because the database manager selects a single arbitrary scientist's name
 rather than aggregating separately for each scientist.
-Since there are only five scientists,
-we could write five queries of the form:
+Since there are only five scientists, we could write five queries of 
+the form:
 
 ~~~
 SELECT person, count(reading), round(avg(reading), 2)
@@ -212,7 +188,6 @@ FROM  Survey
 WHERE quant = 'rad'
 AND   person = 'dyer';
 ~~~
-{: .sql}
 
 person|count(reading)|round(avg(reading), 2)|
 ------|--------------|----------------------|
@@ -232,7 +207,6 @@ FROM     Survey
 WHERE    quant = 'rad'
 GROUP BY person;
 ~~~
-{: .sql}
 
 person|count(reading)|round(avg(reading), 2)|
 ------|--------------|----------------------|
@@ -260,7 +234,6 @@ SELECT   person, quant, count(reading), round(avg(reading), 2)
 FROM     Survey
 GROUP BY person, quant;
 ~~~
-{: .sql}
 
 |person|quant|count(reading)|round(avg(reading), 2)|
 |------|-----|--------------|----------------------|
@@ -289,7 +262,6 @@ WHERE    person IS NOT NULL
 GROUP BY person, quant
 ORDER BY person, quant;
 ~~~
-{: .sql}
 
 |person|quant|count(reading)|round(avg(reading), 2)|
 |------|-----|--------------|----------------------|
@@ -333,13 +305,10 @@ this query:
 > > ~~~
 > > SELECT count(reading), avg(reading) FROM Survey WHERE quant = 'temp' AND person = 'pb';
 > > ~~~
-> > {: .sql}
 > >
 > > |count(reading)|avg(reading)|
 > > |--------------|------------|
 > > |2             |-20.0       |
-> {: .solution}
-{: .challenge}
 
 > ## Averaging with NULL
 >
@@ -360,9 +329,6 @@ this query:
 > >     UNION ALL SELECT NULL
 > >     UNION ALL SELECT 5);
 > > ```
-> > {: .sql}
-> {: .solution}
-{: .challenge}
 
 > ## What Does This Query Do?
 >
@@ -374,10 +340,8 @@ this query:
 > ~~~
 > SELECT reading - avg(reading) FROM Survey WHERE quant = 'rad';
 > ~~~
-> {: .sql}
 >
 > What does this actually produce, and why?
-{: .challenge}
 
 > ## Ordering When Concatenating
 >
@@ -391,7 +355,5 @@ this query:
 > ~~~
 > William Dyer, Frank Pabodie, Anderson Lake, Valentina Roerich, Frank Danforth
 > ~~~
-> {: .sql}
 >
 > Can you find a way to order the list by surname?
-{: .challenge}
