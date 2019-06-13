@@ -30,7 +30,6 @@ its date is null:
 ~~~
 SELECT * FROM Visited;
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -49,7 +48,6 @@ If we select the records that come before 1930:
 ~~~
 SELECT * FROM Visited WHERE dated < '1930-01-01';
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -62,7 +60,6 @@ and if we select the ones that come during or after 1930:
 ~~~
 SELECT * FROM Visited WHERE dated >= '1930-01-01';
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -74,15 +71,13 @@ SELECT * FROM Visited WHERE dated >= '1930-01-01';
 
 we get five,
 but record #752 isn't in either set of results.
-The reason is that
-`null<'1930-01-01'`
+The reason is that `null<'1930-01-01'`
 is neither true nor false:
 null means, "We don't know,"
 and if we don't know the value on the left side of a comparison,
 we don't know whether the comparison is true or false.
 Since databases represent "don't know" as null,
-the value of `null<'1930-01-01'`
-is actually `null`.
+the value of `null<'1930-01-01'` is actually `null`.
 `null>='1930-01-01'` is also null
 because we can't answer to that question either.
 And since the only records kept by a `WHERE`
@@ -93,21 +88,18 @@ Comparisons aren't the only operations that behave this way with nulls.
 `1+null` is `null`,
 `5*null` is `null`,
 `log(null)` is `null`,
-and so on.
-In particular,
-comparing things to null with = and != produces null:
+and so on. In particular, comparing things to null with = 
+and != produces null:
 
 ~~~
 SELECT * FROM Visited WHERE dated = NULL;
 ~~~
-{: .sql}
 
 produces no output, and neither does:
 
 ~~~
 SELECT * FROM Visited WHERE dated != NULL;
 ~~~
-{: .sql}
 
 To check whether a value is `null` or not,
 we must use a special test `IS NULL`:
@@ -115,7 +107,6 @@ we must use a special test `IS NULL`:
 ~~~
 SELECT * FROM Visited WHERE dated IS NULL;
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -126,7 +117,6 @@ or its inverse `IS NOT NULL`:
 ~~~
 SELECT * FROM Visited WHERE dated IS NOT NULL;
 ~~~
-{: .sql}
 
 |id   |site|dated     |
 |-----|----|----------|
@@ -147,7 +137,6 @@ It's natural to write the query like this:
 ~~~
 SELECT * FROM Survey WHERE quant = 'sal' AND person != 'lake';
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -168,7 +157,6 @@ we need to add an explicit check:
 ~~~
 SELECT * FROM Survey WHERE quant = 'sal' AND (person != 'lake' OR person IS NULL);
 ~~~
-{: .sql}
 
 |taken|person|quant|reading|
 |-----|------|-----|-------|
@@ -201,7 +189,6 @@ detail in [the next section]({{ site.github.url }}/06-agg/).
 > > ~~~
 > > SELECT * FROM Visited WHERE dated IS NOT NULL ORDER BY dated ASC;
 > > ~~~
-> > {: .sql}
 > >
 > > |id        |site      |dated     |
 > > |----------|----------|----------|
@@ -212,8 +199,6 @@ detail in [the next section]({{ site.github.url }}/06-agg/).
 > > |751       |DR-3      |1930-02-26|
 > > |837       |MSK-4     |1932-01-14|
 > > |844       |DR-1      |1932-03-22|
-> {: .solution}
-{: .challenge}
 
 > ## NULL in a Set
 >
@@ -222,21 +207,16 @@ detail in [the next section]({{ site.github.url }}/06-agg/).
 > ~~~
 > SELECT * FROM Visited WHERE dated IN ('1927-02-08', NULL);
 > ~~~
-> {: .sql}
 >
 > to produce?
 > What does it actually produce?
-{: .challenge}
 
 > ## Pros and Cons of Sentinels
 >
 > Some database designers prefer to use
 > a [sentinel value]({{ site.github.url }}/reference.html#sentinel-value)
 > to mark missing data rather than `null`.
-> For example,
-> they will use the date "0000-00-00" to mark a missing date,
-> or -1.0 to mark a missing salinity or radiation reading
-> (since actual readings cannot be negative).
-> What does this simplify?
-> What burdens or risks does it introduce?
-{: .challenge}
+> For example, they will use the date "0000-00-00" to mark a 
+> missing date, or -1.0 to mark a missing salinity or radiation 
+> reading (since actual readings cannot be negative). What does this 
+> simplify? What burdens or risks does it introduce?
