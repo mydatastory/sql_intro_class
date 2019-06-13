@@ -214,8 +214,7 @@ detail in [the next section]({{ site.github.url }}/06-agg/).
 > ## Pros and Cons of Sentinels
 >
 > Some database designers prefer to use
-> a [sentinel value]({{ site.github.url }}/reference.html#sentinel-value)
-> to mark missing data rather than `null`.
+> a sentinel value to mark missing data rather than `null`.
 > For example, they will use the date "0000-00-00" to mark a 
 > missing date, or -1.0 to mark a missing salinity or radiation 
 > reading (since actual readings cannot be negative). What does this 
