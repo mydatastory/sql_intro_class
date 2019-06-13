@@ -23,12 +23,10 @@ If we want to create and modify data,
 we need to know two other sets of commands.
 
 The first pair are [`CREATE TABLE`][create-table] and [`DROP TABLE`][drop-table].
-While they are written as two words,
-they are actually single commands.
-The first one creates a new table;
-its arguments are the names and types of the table's columns.
-For example,
-the following statements create the four tables in our survey database:
+While they are written as two words, they are actually single commands.
+The first one creates a new table; its arguments are the names and types of 
+the table's columns. For example, the following statements create the four 
+tables in our survey database:
 
 ~~~
 CREATE TABLE Person(id text, personal text, family text);
@@ -36,14 +34,12 @@ CREATE TABLE Site(name text, lat real, long real);
 CREATE TABLE Visited(id integer, site text, dated text);
 CREATE TABLE Survey(taken integer, person text, quant text, reading real);
 ~~~
-{: .sql}
 
 We can get rid of one of our tables using:
 
 ~~~
 DROP TABLE Survey;
 ~~~
-{: .sql}
 
 Be very careful when doing this:
 if you drop the wrong table, hope that the person maintaining the database has a backup,
@@ -61,17 +57,15 @@ but most provide the following:
 
 Most databases also support Booleans and date/time values;
 SQLite uses the integers 0 and 1 for the former,
-and represents the latter as discussed [earlier]({{ page.root }}/03-filter/#date-types).
+and represents the latter as discussed earlier.
 An increasing number of databases also support geographic data types,
-such as latitude and longitude.
-Keeping track of what particular systems do or do not offer,
-and what names they give different data types,
+such as latitude and longitude. Keeping track of what particular systems 
+do or do not offer, and what names they give different data types,
 is an unending portability headache.
 
-When we create a table,
-we can specify several kinds of constraints on its columns.
-For example,
-a better definition for the `Survey` table would be:
+When we create a table, we can specify several kinds of constraints 
+on its columns.  For example, a better definition for the `Survey` 
+table would be:
 
 ~~~
 CREATE TABLE Survey(
@@ -84,7 +78,6 @@ CREATE TABLE Survey(
     foreign key(person) references Person(id)
 );
 ~~~
-{: .sql}
 
 Once again,
 exactly what constraints are available
@@ -102,7 +95,6 @@ INSERT INTO Site VALUES('DR-1', -49.85, -128.57);
 INSERT INTO Site VALUES('DR-3', -47.15, -126.72);
 INSERT INTO Site VALUES('MSK-4', -48.87, -123.40);
 ~~~
-{: .sql}
 
 We can also insert values into one table directly from another:
 
@@ -110,7 +102,6 @@ We can also insert values into one table directly from another:
 CREATE TABLE JustLatLong(lat text, long text);
 INSERT INTO JustLatLong SELECT lat, long FROM Site;
 ~~~
-{: .sql}
 
 Modifying existing records is done using the `UPDATE` statement.
 To do this we tell the database which table we want to update,
@@ -123,7 +114,6 @@ of the last `INSERT` statement above:
 ~~~
 UPDATE Site SET lat = -47.87, long = -122.40 WHERE name = 'MSK-4';
 ~~~
-{: .sql}
 
 Be careful to not forget the `WHERE` clause or the update statement will
 modify *all* of the records in the database.
@@ -140,7 +130,6 @@ we can remove him from the `Person` table like this:
 ~~~
 DELETE FROM Person WHERE id = 'danforth';
 ~~~
-{: .sql}
 
 But what if we removed Anderson Lake instead?
 Our `Survey` table would still contain seven records
@@ -150,16 +139,14 @@ but that's never supposed to happen:
 and all our queries assume there will be a row in the latter
 matching every value in the former.
 
-This problem is called [referential integrity]({{ site.github.url }}/reference.html#referential-integrity):
+This problem is called referential integrity:
 we need to ensure that all references between tables can always be resolved correctly.
 One way to do this is to delete all the records
 that use `'lake'` as a foreign key
 before deleting the record that uses it as a primary key.
 If our database manager supports it,
-we can automate this
-using [cascading delete]({{ site.github.url }}/reference.html#cascading-delete).
-However,
-this technique is outside the scope of this chapter.
+we can automate this using cascading delete.
+However, this technique is outside the scope of this chapter.
 
 > ## Hybrid Storage Models
 >
@@ -174,7 +161,6 @@ this technique is outside the scope of this chapter.
 > This is also how most music player software is built:
 > the database inside the application keeps track of the MP3 files,
 > but the files themselves live on disk.
-{: .callout}
 
 > ## Replacing NULL
 >
@@ -185,9 +171,6 @@ this technique is outside the scope of this chapter.
 > > ~~~
 > > UPDATE Survey SET person = 'unknown' WHERE person IS NULL;
 > > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
 
 > ## Generating Insert Statements
 >
@@ -200,14 +183,12 @@ this technique is outside the scope of this chapter.
 > 619,-21.5
 > 622,-15.5
 > ~~~
-> {: .output}
 >
 > Write a small Python program that reads this file in and prints out
 > the SQL `INSERT` statements needed to add these records to the
 > survey database.  Note: you will need to add an entry for Olmstead
 > to the `Person` table.  If you are testing your program repeatedly,
 > you may want to investigate SQL's `INSERT or REPLACE` command.
-{: .challenge}
 
 > ## Backing Up with SQL
 >
@@ -231,8 +212,6 @@ this technique is outside the scope of this chapter.
 > >
 > > #### Disadvantages
 > > - Artificial differences between commits because records don't have a fixed order
-> {: .solution}
-{: .challenge}
 
 [create-table]: https://www.sqlite.org/lang_createtable.html
 [drop-table]: https://www.sqlite.org/lang_droptable.html
