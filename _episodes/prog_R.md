@@ -34,14 +34,13 @@ results <- dbGetQuery(connection, "SELECT Site.lat, Site.long FROM Site;")
 print(results)
 dbDisconnect(connection)
 ~~~
-{: .r}
+
 ~~~
      lat    long
 1 -49.85 -128.57
 2 -47.15 -126.72
 3 -48.87 -123.40
 ~~~
-{: .output}
 
 The program starts by importing the `RSQLite` library.
 If we were connecting to MySQL, DB2, or some other database,
@@ -93,11 +92,10 @@ print(paste("full name for dyer:", getName('dyer')))
 
 dbDisconnect(connection)
 ~~~
-{: .r}
+
 ~~~ 
 full name for dyer: William Dyer
 ~~~
-{: .output}
 
 We use string concatenation on the first line of this function
 to construct a query containing the user ID we have been given.
@@ -107,7 +105,6 @@ but what happens if someone gives us this string as input?
 ~~~ 
 dyer'; DROP TABLE Survey; SELECT '
 ~~~
-{: .sql}
 
 It looks like there's garbage after the user's ID,
 but it is very carefully chosen garbage.
@@ -117,18 +114,14 @@ the result is:
 ~~~ 
 SELECT personal || ' ' || family FROM Person WHERE id='dyer'; DROP TABLE Survey; SELECT '';
 ~~~
-{: .sql}
 
-If we execute this,
-it will erase one of the tables in our database.
+If we execute this, it will erase one of the tables in our database.
 
 This is called an [SQL injection attack]({{ site.github.url }}/reference.html#sql-injection-attack),
-and it has been used to attack thousands of programs over the years.
-In particular,
+and it has been used to attack thousands of programs over the years. In particular,
 many web sites that take data from users insert values directly into queries
-without checking them carefully first.
-A very [relevant XKCD](https://xkcd.com/327/) that explains the 
-dangers of using raw input in queries a little more succinctly:
+without checking them carefully first. A very [relevant XKCD](https://xkcd.com/327/) that 
+explains the dangers of using raw input in queries a little more succinctly:
 
 ![relevant XKCD](https://imgs.xkcd.com/comics/exploits_of_a_mom.png) 
 
@@ -136,7 +129,7 @@ Since an unscrupulous parent might try to smuggle commands into our queries in m
 the safest way to deal with this threat is
 to replace characters like quotes with their escaped equivalents,
 so that we can safely put whatever the user gives us inside a string.
-We can do this by using a [prepared statement]({{ site.github.url }}/reference.html#prepared-statement)
+We can do this by using a prepared statement.
 instead of formatting our statements as strings.
 Here's what our example program looks like if we do this:
 
@@ -153,11 +146,10 @@ print(paste("full name for dyer:", getName('dyer')))
 
 dbDisconnect(connection)
 ~~~
-{: .r}
+
 ~~~ 
 full name for dyer: William Dyer
 ~~~
-{: .output}
 
 The key changes are in the query string and the `dbGetQuery` call (we use dbGetPreparedQuery instead).
 Instead of formatting the query ourselves,
@@ -178,7 +170,6 @@ so that they are safe to use.
 > between 10.0 and 25.0.  How long does it take this program to run?
 > How long does it take to run a program that simply writes those
 > random numbers to a file?
-{: .challenge}
 
 > ## Filtering in SQL vs. Filtering in R
 >
@@ -187,7 +178,6 @@ so that they are safe to use.
 > the values greater than 20.0 from `original.db` to `backup.db`.
 > Which is faster: filtering values in the query, or reading
 > everything into memory and filtering in R?
-{: .challenge}
 
 ## Database helper functions in R
 
@@ -201,23 +191,20 @@ To view all tables in a database, we can use `dbListTables()`:
 connection <- dbConnect(SQLite(), "survey.db")
 dbListTables(connection)
 ~~~
-{: .r}
+
 ~~~
 "Person"  "Site"    "Survey"  "Visited"
 ~~~
-{: .output}
-
 
 To view all column names of a table, use `dbListFields()`:
 
 ~~~
 dbListFields(connection, "Survey")
 ~~~
-{: .r}
+
 ~~~
 "taken"   "person"  "quant"   "reading"
 ~~~
-{: .output}
 
 
 To read an entire table as a dataframe, use `dbReadTable()`:
@@ -225,7 +212,7 @@ To read an entire table as a dataframe, use `dbReadTable()`:
 ~~~
 dbReadTable(connection, "Person")
 ~~~
-{: .r}
+
 ~~~
         id  personal   family
 1     dyer   William     Dyer
@@ -234,8 +221,6 @@ dbReadTable(connection, "Person")
 4      roe Valentina  Roerich
 5 danforth     Frank Danforth
 ~~~
-{: .output}
-
 
 Finally to write an entire table to a database, you can use `dbWriteTable()`. 
 Note that we will always want to use the `row.names = FALSE` argument or R 
@@ -246,7 +231,7 @@ In this example we will write R's built-in `iris` dataset as a table in `survey.
 dbWriteTable(connection, "iris", iris, row.names = FALSE)
 head(dbReadTable(connection, "iris"))
 ~~~
-{: .r}
+
 ~~~
   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
@@ -256,12 +241,10 @@ head(dbReadTable(connection, "iris"))
 5          5.0         3.6          1.4         0.2  setosa
 6          5.4         3.9          1.7         0.4  setosa
 ~~~
-{: .output}
 
 And as always, remember to close the database connection when done!
 
 ~~~
 dbDisconnect(connection)
 ~~~
-{: .r}
 
