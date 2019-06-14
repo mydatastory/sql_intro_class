@@ -15,12 +15,10 @@ keypoints:
 - "Programs can read query results in batches or all at once."
 - "Queries should be written using parameter substitution, not string formatting."
 ---
-To close,
-let's have a look at how to access a database from
+To close, let's have a look at how to access a database from
 a general-purpose programming language like Python.
-Other languages use almost exactly the same model:
-library and function names may differ,
-but the concepts are the same.
+Other languages use almost exactly the same model: library and 
+function names may differ, but the concepts are the same.
 
 Here's a short Python program that selects latitudes and longitudes
 from an SQLite database stored in a file called `survey.db`:
@@ -37,59 +35,45 @@ for r in results:
 cursor.close()
 connection.close()
 ~~~
-{: .python}
+
 ~~~
 (-49.85, -128.57)
 (-47.15, -126.72)
 (-48.87, -123.4)
 ~~~
-{: .output}
 
 The program starts by importing the `sqlite3` library.
 If we were connecting to MySQL, DB2, or some other database,
-we would import a different library,
-but all of them provide the same functions,
-so that the rest of our program does not have to change
-(at least, not much)
+we would import a different library, but all of them provide the same functions,
+so that the rest of our program does not have to change (at least, not much)
 if we switch from one database to another.
 
 Line 2 establishes a connection to the database.
-Since we're using SQLite,
-all we need to specify is the name of the database file.
-Other systems may require us to provide a username and password as well.
-Line 3 then uses this connection to create a [cursor]({{ site.github.url }}/reference.html#cursor).
-Just like the cursor in an editor,
-its role is to keep track of where we are in the database.
+Since we're using SQLite, all we need to specify is the name of the database 
+file. Other systems may require us to provide a username and password as well.
+Line 3 then uses this connection to create a cursor. Just like the cursor in 
+an editor, its role is to keep track of where we are in the database.
 
 On line 4, we use that cursor to ask the database to execute a query for us.
-The query is written in SQL,
-and passed to `cursor.execute` as a string.
-It's our job to make sure that SQL is properly formatted;
-if it isn't,
-or if something goes wrong when it is being executed,
-the database will report an error.
+The query is written in SQL, and passed to `cursor.execute` as a string. It's 
+our job to make sure that SQL is properly formatted; if it isn't, or if 
+something goes wrong when it is being executed, the database will report an error.
 
 The database returns the results of the query to us
-in response to the `cursor.fetchall` call on line 5.
-This result is a list with one entry for each record in the result set;
-if we loop over that list (line 6) and print those list entries (line 7),
-we can see that each one is a tuple
-with one element for each field we asked for.
+in response to the `cursor.fetchall` call on line 5. This result is a list with 
+one entry for each record in the result set; if we loop over that list (line 6) 
+and print those list entries (line 7), we can see that each one is a tuple with 
+one element for each field we asked for.
 
 Finally, lines 8 and 9 close our cursor and our connection,
 since the database can only keep a limited number of these open at one time.
-Since establishing a connection takes time,
-though,
-we shouldn't open a connection,
-do one operation,
-then close the connection,
-only to reopen it a few microseconds later to do another operation.
-Instead,
-it's normal to create one connection that stays open for the lifetime of the program.
+Since establishing a connection takes time, though, we shouldn't open a connection,
+do one operation, then close the connection, only to reopen it a few microseconds 
+later to do another operation. Instead, it's normal to create one connection 
+that stays open for the lifetime of the program.
 
 Queries in real applications will often depend on values provided by users.
-For example,
-this function takes a user's ID as a parameter and returns their name:
+For example, this function takes a user's ID as a parameter and returns their name:
 
 ~~~
 import sqlite3
@@ -108,47 +92,38 @@ def get_name(database_file, person_id):
 
 print("Full name for dyer:", get_name('survey.db', 'dyer'))
 ~~~
-{: .python}
+
 ~~~
 Full name for dyer: William Dyer
 ~~~
-{: .output}
 
 We use string concatenation on the first line of this function
 to construct a query containing the user ID we have been given.
-This seems simple enough,
-but what happens if someone gives us this string as input?
+This seems simple enough, but what happens if someone gives us this 
+string as input?
 
 ~~~
 dyer'; DROP TABLE Survey; SELECT '
 ~~~
-{: .source}
 
 It looks like there's garbage after the user's ID,
-but it is very carefully chosen garbage.
-If we insert this string into our query,
-the result is:
+but it is very carefully chosen garbage. If we insert this string 
+into our query, the result is:
 
 ~~~
 SELECT personal || ' ' || family FROM Person WHERE id='dyer'; DROP TABLE Survey; SELECT '';
 ~~~
-{: .sql}
 
-If we execute this,
-it will erase one of the tables in our database.
+If we execute this, it will erase one of the tables in our database.
 
-This is called an [SQL injection attack]({{ site.github.url }}/reference.html#sql-injection-attack),
-and it has been used to attack thousands of programs over the years.
-In particular,
-many web sites that take data from users insert values directly into queries
-without checking them carefully first.
+This is called an SQL injection attack, and it has been used to attack thousands of 
+programs over the years.  In particular, many web sites that take data from users 
+insert values directly into queries without checking them carefully first.
 
 Since a villain might try to smuggle commands into our queries in many different ways,
-the safest way to deal with this threat is
-to replace characters like quotes with their escaped equivalents,
-so that we can safely put whatever the user gives us inside a string.
-We can do this by using a [prepared statement]({{ site.github.url }}/reference.html#prepared-statement)
-instead of formatting our statements as strings.
+the safest way to deal with this threat is to replace characters like quotes with their 
+escaped equivalents, so that we can safely put whatever the user gives us inside a string.
+We can do this by using a prepared statement instead of formatting our statements as strings.
 Here's what our example program looks like if we do this:
 
 ~~~
@@ -168,11 +143,10 @@ def get_name(database_file, person_id):
 
 print("Full name for dyer:", get_name('survey.db', 'dyer'))
 ~~~
-{: .python}
+
 ~~~
 Full name for dyer: William Dyer
 ~~~
-{: .output}
 
 The key changes are in the query string and the `execute` call.
 Instead of formatting the query ourselves,
@@ -186,8 +160,8 @@ into their escaped equivalents
 so that they are safe to use.
 
 We can also use `sqlite3`'s cursor to make changes to our database,
-such as inserting a new name.
-For instance, we can define a new function called `add_name` like so:
+such as inserting a new name. For instance, we can define a new function 
+called `add_name` like so:
 
 ~~~
 import sqlite3
@@ -219,16 +193,14 @@ add_name('survey.db', ('barrett', 'Mary', 'Barrett'))
 # Check it exists
 print("Full name for barrett:", get_name('survey.db', 'barrett'))
 ~~~
-{: .python}
+
 ~~~
 IndexError: list index out of range
 ~~~
-{: .output}
 
 Note that in versions of sqlite3 >= 2.5, the `get_name` function described
 above will fail with an `IndexError: list index out of range`,
-even though we added Mary's
-entry into the table using `add_name`.
+even though we added Mary's entry into the table using `add_name`.
 This is because we must perform a `connection.commit()` before closing
 the connection, in order to save our changes to the database.
 
@@ -263,11 +235,10 @@ add_name('survey.db', ('barrett', 'Mary', 'Barrett'))
 # Check it exists
 print("Full name for barrett:", get_name('survey.db', 'barrett'))
 ~~~
-{: .python}
+
 ~~~
 Full name for barrett: Mary Barrett
 ~~~
-{: .output}
 
 
 > ## Filling a Table vs. Printing Values
@@ -300,7 +271,6 @@ Full name for barrett: Mary Barrett
 > > connection.commit()
 > > connection.close()
 > > ~~~
-> > {: .python}
 > >
 > > For comparison, the following program writes the random numbers
 > > into the file `random_numbers.txt`:
@@ -314,9 +284,6 @@ Full name for barrett: Mary Barrett
 > >         # need to add linebreak \n
 > >         outfile.write("{}\n".format(number))
 > > ~~~
-> > {: .python}
-> {: .solution}
-{: .challenge}
 
 > ## Filtering in SQL vs. Filtering in Python
 >
@@ -354,7 +321,6 @@ Full name for barrett: Mary Barrett
 > > connection_backup.commit()
 > > connection_backup.close()
 > > ~~~
-> > {: .python}
 > >
 > > In contrast the following example uses the conditional ``SELECT`` statement
 > > to filter the numbers in SQL.
@@ -385,7 +351,4 @@ Full name for barrett: Mary Barrett
 > > connection_backup.commit()
 > > connection_backup.close()
 > > ~~~
-> > {: .python}
 > >
-> {: .solution}
-{: .challenge}
