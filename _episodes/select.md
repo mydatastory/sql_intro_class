@@ -332,22 +332,26 @@ SELECT * FROM Person;
 > From the output, we see that the **taken** column in the **Survey** table (3rd line) is composed of integers. 
 > </p>
 > </details>
-
+>
 > ## Selecting Site Names
 >
 > Write a query that selects only the `name` column from the `Site` table.
 >
-> > ## Solution
-> > 
-> > ~~~
-> > SELECT name FROM Site;
-> > ~~~
-> >
-> > |name      |
-> > |----------|
-> > |DR-1      |
-> > |DR-3      |
-> > |MSK-4     |
+> <details><summary>Solution</summary>
+> <p>
+>
+> 
+> ~~~
+> SELECT name FROM Site;
+> ~~~
+>
+> |name      |
+> |----------|
+> |DR-1      |
+> |DR-3      |
+> |MSK-4     |
+> </p>
+> </details>
 
 > ## Query Style
 >
