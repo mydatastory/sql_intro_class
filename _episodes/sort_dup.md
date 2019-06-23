@@ -226,7 +226,6 @@ SELECT DISTINCT quant, person FROM Survey ORDER BY quant ASC;
 > </p>
 > </details>
 
-
 > ## Displaying Full Names
 >
 > Write a query that displays the full names of the scientists in the `Person` table,
