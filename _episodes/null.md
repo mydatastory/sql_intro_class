@@ -71,8 +71,7 @@ SELECT * FROM Visited WHERE dated >= '1930-01-01';
 
 we get five,
 but record #752 isn't in either set of results.
-The reason is that `null<'1930-01-01'`
-is neither true nor false:
+The reason is that `null<'1930-01-01'` is neither true nor false:
 null means, "We don't know,"
 and if we don't know the value on the left side of a comparison,
 we don't know whether the comparison is true or false.
@@ -129,10 +128,8 @@ SELECT * FROM Visited WHERE dated IS NOT NULL;
 |844  |DR-1|1932-03-22|
 
 Null values can cause headaches wherever they appear.
-For example,
-suppose we want to find all the salinity measurements
-that weren't taken by Lake.
-It's natural to write the query like this:
+For example, suppose we want to find all the salinity measurements
+that weren't taken by Lake. It's natural to write the query like this:
 
 ~~~
 SELECT * FROM Survey WHERE quant = 'sal' AND person != 'lake';
@@ -184,21 +181,24 @@ detail in [the next section]({{ site.github.url }}/06-agg/).
 > omitting entries for which the date is not known
 > (i.e., is null).
 >
-> > ## Solution
-> >
-> > ~~~
-> > SELECT * FROM Visited WHERE dated IS NOT NULL ORDER BY dated ASC;
-> > ~~~
-> >
-> > |id        |site      |dated     |
-> > |----------|----------|----------|
-> > |619       |DR-1      |1927-02-08|
-> > |622       |DR-1      |1927-02-10|
-> > |734       |DR-3      |1930-01-07|
-> > |735       |DR-3      |1930-01-12|
-> > |751       |DR-3      |1930-02-26|
-> > |837       |MSK-4     |1932-01-14|
-> > |844       |DR-1      |1932-03-22|
+> <details><summary>Solution</summary>
+> <p>
+> 
+> ~~~
+> SELECT * FROM Visited WHERE dated IS NOT NULL ORDER BY dated ASC;
+> ~~~
+>
+> |id        |site      |dated     |
+> |----------|----------|----------|
+> |619       |DR-1      |1927-02-08|
+> |622       |DR-1      |1927-02-10|
+> |734       |DR-3      |1930-01-07|
+> |735       |DR-3      |1930-01-12|
+> |751       |DR-3      |1930-02-26|
+> |837       |MSK-4     |1932-01-14|
+> |844       |DR-1      |1932-03-22|
+> </p>
+> </details>
 
 > ## NULL in a Set
 >
