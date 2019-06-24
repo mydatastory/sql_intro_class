@@ -69,21 +69,15 @@ SELECT * FROM Visited WHERE site = 'DR-1' AND dated < '1930-01-01';
 
 > ## Date Types
 >
-> Most database managers have a special data type for dates.
-> In fact, many have two:
-> one for dates,
-> such as "May 31, 1971",
-> and one for durations,
-> such as "31 days".
-> SQLite doesn't:
-> instead, it stores dates as either text
+> Most database managers have a special data type for dates. In fact, many have two:
+> one for dates, such as "May 31, 1971", and one for durations, such as "31 days".
+> SQLite doesn't: instead, it stores dates as either text
 > (in the ISO-8601 standard format "YYYY-MM-DD HH:MM:SS.SSSS"),
 > real numbers
 > ([Julian days](https://en.wikipedia.org/wiki/Julian_day), the number of days since November 24, 4714 BCE),
 > or integers
 > ([Unix time](https://en.wikipedia.org/wiki/Unix_time), the number of seconds since midnight, January 1, 1970).
-> If this sounds complicated,
-> it is, but not nearly as complicated as figuring out
+> If this sounds complicated, it is, but not nearly as complicated as figuring out
 > [historical dates in Sweden](https://en.wikipedia.org/wiki/Swedish_calendar).
 
 If we want to find out what measurements were taken by either Lake or Roerich,
@@ -233,15 +227,18 @@ not to the entire rows as they are being processed.
 > Explain why this is wrong,
 > and rewrite the query so that it is correct.
 >
-> > ## Solution
-> >
-> > Because we used `OR`, a site on the South Pole for example will still meet 
-> > the second criteria and thus be included. Instead, we want to restrict this
-> > to sites that meet _both_ criteria:
-> >
-> > ~~~
-> > SELECT * FROM Site WHERE (lat > -48) AND (lat < 48);
-> > ~~~
+> <details><summary>Solution</summary>
+> <p>
+> 
+> Because we used `OR`, a site on the South Pole for example will still meet 
+> the second criteria and thus be included. Instead, we want to restrict this
+> to sites that meet _both_ criteria:
+>
+> ~~~
+> SELECT * FROM Site WHERE (lat > -48) AND (lat < 48);
+> ~~~
+> </p>
+> </details>
 
 > ## Finding Outliers
 >
@@ -249,16 +246,19 @@ not to the entire rows as they are being processed.
 > Write a query that selects all records from `Survey`
 > with salinity values outside this range.
 >
-> > ## Solution
-> >
-> > ~~~
-> > SELECT * FROM Survey WHERE quant = 'sal' AND ((reading > 1.0) OR (reading < 0.0));
-> > ~~~
-> >
-> > |taken     |person    |quant     |reading   |
-> > |----------|----------|----------|----------|
-> > |752       |roe       |sal       |41.6      |
-> > |837       |roe       |sal       |22.5      |
+> <details><summary>Solution</summary>
+> <p>
+> 
+> ~~~
+> SELECT * FROM Survey WHERE quant = 'sal' AND ((reading > 1.0) OR (reading < 0.0));
+> ~~~
+>
+> |taken     |person    |quant     |reading   |
+> |----------|----------|----------|----------|
+> |752       |roe       |sal       |41.6      |
+> |837       |roe       |sal       |22.5      |
+> </p>
+> </details>
 
 > ## Matching Patterns
 >
@@ -270,10 +270,13 @@ not to the entire rows as they are being processed.
 > 4. `'alpha' LIKE 'a%%'`
 > 5. `'alpha' LIKE 'a%p%'`
 >
-> > ## Solution
-> >
-> > 1. True because these are the same character.
-> > 2. True because the wildcard can match _zero_ or more characters.
-> > 3. True because the `%` matches `bet` and the `a` matches the `a`.
-> > 4. True because the first wildcard matches `lpha` and the second wildcard matches zero characters (or vice versa).
-> > 5. True because the first wildcard matches `l` and the second wildcard matches `ha`.
+> <details><summary>Solution</summary>
+> <p>
+> 
+> 1. True because these are the same character.
+> 2. True because the wildcard can match _zero_ or more characters.
+> 3. True because the `%` matches `bet` and the `a` matches the `a`.
+> 4. True because the first wildcard matches `lpha` and the second wildcard matches zero characters (or vice versa).
+> 5. True because the first wildcard matches `l` and the second wildcard matches `ha`.
+> </p>
+> </details>
