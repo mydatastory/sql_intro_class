@@ -59,9 +59,7 @@ SELECT max(dated) FROM Visited;
 
 `min` and `max` are just two of
 the aggregation functions built into SQL.
-Three others are `avg`,
-`count`,
-and `sum`:
+Three others are `avg`, `count`, and `sum`:
 
 ~~~
 SELECT avg(reading) FROM Survey WHERE quant = 'sal';
@@ -300,15 +298,18 @@ this query:
 > How many temperature readings did Frank Pabodie record,
 > and what was their average value?
 >
-> > ## Solution
-> >
-> > ~~~
-> > SELECT count(reading), avg(reading) FROM Survey WHERE quant = 'temp' AND person = 'pb';
-> > ~~~
-> >
-> > |count(reading)|avg(reading)|
-> > |--------------|------------|
-> > |2             |-20.0       |
+> <details><summary>Solution</summary>
+> <p>
+>
+> ~~~
+> SELECT count(reading), avg(reading) FROM Survey WHERE quant = 'temp' AND person = 'pb';
+> ~~~
+>
+> |count(reading)|avg(reading)|
+> |--------------|------------|
+> |2             |-20.0       |
+> </p>
+> </details>
 
 > ## Averaging with NULL
 >
@@ -317,18 +318,22 @@ this query:
 > Does this mean that the `avg` function returns 2.0 or 3.0
 > when given the values 1.0, `null`, and 5.0?
 >
-> > ## Solution
-> > The answer is 3.0.
-> > `NULL` is not a value; it is the absence of a value.
-> > As such it is not included in the calculation.
-> >
-> > You can confirm this, by executing this code:
-> > ```
-> > SELECT AVG(a) FROM (
-> >     SELECT 1 AS a
-> >     UNION ALL SELECT NULL
-> >     UNION ALL SELECT 5);
-> > ```
+> <details><summary>Solution</summary>
+> <p>
+>
+> The answer is 3.0.
+> `NULL` is not a value; it is the absence of a value.
+> As such it is not included in the calculation.
+>
+> You can confirm this, by executing this code:
+> ```
+> SELECT AVG(a) FROM (
+>     SELECT 1 AS a
+>     UNION ALL SELECT NULL
+>     UNION ALL SELECT 5);
+> ```
+> </p>
+> </details>
 
 > ## What Does This Query Do?
 >
