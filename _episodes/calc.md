@@ -92,16 +92,19 @@ SELECT personal || ' ' || family FROM Person;
 > from the `Survey` table
 > with the values divided by 100.
 > 
-> > ## Solution
-> >
-> > ~~~
-> > SELECT taken, reading / 100 FROM Survey WHERE person = 'roe' AND quant = 'sal';
-> > ~~~
-> >
-> > |taken     |reading / 100|
-> > |----------|-------------|
-> > |752       |0.416        |
-> > |837       |0.225        |
+> <details><summary>Solution</summary>
+> <p>
+> 
+> ~~~
+> SELECT taken, reading / 100 FROM Survey WHERE person = 'roe' AND quant = 'sal';
+> ~~~
+>
+> |taken     |reading / 100|
+> |----------|-------------|
+> |752       |0.416        |
+> |837       |0.225        |
+> </p>
+> </details>
 
 > ## Unions
 >
@@ -142,11 +145,14 @@ SELECT personal || ' ' || family FROM Person;
 > |837  |0.21   |
 > |837  |0.225  |
 > 
-> > ## Solution
-> >
-> > ~~~
-> > SELECT taken, reading FROM Survey WHERE person != 'roe' AND quant = 'sal' UNION SELECT taken, reading / 100 FROM Survey WHERE person = 'roe' AND quant = 'sal' ORDER BY taken ASC;
-> > ~~~
+> <details><summary>Solution</summary>
+> <p>
+> 
+> ~~~
+> SELECT taken, reading FROM Survey WHERE person != 'roe' AND quant = 'sal' UNION SELECT taken, reading / 100 FROM Survey WHERE person = 'roe' AND quant = 'sal' ORDER BY taken ASC;
+> ~~~
+> </p>
+> </details>
 
 > ## Selecting Major Site Identifiers
 >
@@ -173,7 +179,11 @@ SELECT personal || ' ' || family FROM Person;
 > (For this data,
 > the list should contain only "DR" and "MSK").
 >
-> > ## Solution
-> > ```
-> > SELECT DISTINCT substr(site, 1, instr(site, '-') - 1) AS MajorSite FROM Visited;
-> > ```
+> <details><summary>Solution</summary>
+> <p>
+> 
+> ```
+> SELECT DISTINCT substr(site, 1, instr(site, '-') - 1) AS MajorSite FROM Visited;
+> ```
+> </p>
+> </details>
