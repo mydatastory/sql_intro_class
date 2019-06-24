@@ -55,13 +55,11 @@ just as a spreadsheet would.
 The problem is that it's very hard to keep data organized this way consistent:
 if we realize that the date of a particular visit to a particular site is wrong,
 we have to change multiple records in the database.
-What's worse,
-we may have to guess which records to change,
+What's worse, we may have to guess which records to change,
 since other sites may also have been visited on that date.
 
 The fourth rule is that the units for every value should be stored explicitly.
-Our database doesn't do this,
-and that's a problem:
+Our database doesn't do this, and that's a problem:
 Roerich's salinity measurements are several orders of magnitude larger than anyone else's,
 but we don't know if that means she was using parts per million instead of parts per thousand,
 or whether there actually was a saline anomaly at that site in 1932.
@@ -71,8 +69,7 @@ data and the tools used to store it have a symbiotic relationship:
 we use tables and joins because it's efficient,
 provided our data is organized a certain way,
 but organize our data that way because we have tools to manipulate it efficiently.
-As anthropologists say,
-the tool shapes the hand that shapes the tool.
+As anthropologists say, the tool shapes the hand that shapes the tool.
 
 > ## Identifying Atomic Values
 >
@@ -83,18 +80,22 @@ the tool shapes the hand that shapes the tool.
 > *   January 25, 1971
 > *   the XY coordinate (0.5, 3.3)
 >
-> > ## Solution
-> > New Zealand is the only clear-cut atomic value.
-> >
-> > The address and the XY coordinate contain more than one piece of information
-> > which should be stored separately:
-> > - House number, street name
-> > - X coordinate, Y coordinate
-> >
-> > The date entry is less clear cut, because it contains month, day, and year elements.
-> > However, there is a `DATE` datatype in SQL, and dates should be stored using this format.
-> > If we need to work with the month, day, or year separately, we can use the SQL functions available for our database software
-> > (for example [`EXTRACT`](https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions050.htm) or [`STRFTIME`](http://www.sqlite.org/lang_datefunc.html) for SQLite).
+> <details><summary>Solution</summary>
+> <p>
+>
+> New Zealand is the only clear-cut atomic value.
+>
+> The address and the XY coordinate contain more than one piece of information
+> which should be stored separately:
+> - House number, street name
+> - X coordinate, Y coordinate
+>
+> The date entry is less clear cut, because it contains month, day, and year elements.
+> However, there is a `DATE` datatype in SQL, and dates should be stored using this format.
+> If we need to work with the month, day, or year separately, we can use the SQL functions available for our database software
+> (for example [`EXTRACT`](https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions050.htm) or [`STRFTIME`](http://www.sqlite.org/lang_datefunc.html) for SQLite).
+> </p>
+> </details>
 >
 > ## Identifying a Primary Key
 >
@@ -105,6 +106,10 @@ the tool shapes the hand that shapes the tool.
 > |--------|---------|----------|-----------|
 > |57.3    |-22.5    |2015-01-09|-14.2      |
 >
-> > ## Solution
-> > Latitude, longitude, and date are all required to uniquely identify the temperature record.
+> <details><summary>Solution</summary>
+> <p>
+>
+> Latitude, longitude, and date are all required to uniquely identify the temperature record.
+> </p>
+> </details>
 
