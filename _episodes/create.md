@@ -79,14 +79,11 @@ CREATE TABLE Survey(
 );
 ~~~
 
-Once again,
-exactly what constraints are available
-and what they're called
-depends on which database manager we are using.
+Once again, exactly what constraints are available
+and what they're called depends on which database manager we are using.
 
-Once tables have been created,
-we can add, change, and remove records using our other set of commands,
-`INSERT`, `UPDATE`, and `DELETE`.
+Once tables have been created, we can add, change, and remove records 
+using our other set of commands, `INSERT`, `UPDATE`, and `DELETE`.
 
 The simplest form of `INSERT` statement lists values in order:
 
@@ -167,10 +164,14 @@ However, this technique is outside the scope of this chapter.
 > Write an SQL statement to replace all uses of `null` in
 > `Survey.person` with the string `'unknown'`.
 >
-> > ## Solution
-> > ~~~
-> > UPDATE Survey SET person = 'unknown' WHERE person IS NULL;
-> > ~~~
+> <details><summary>Solution</summary>
+> <p>
+>
+> ~~~
+> UPDATE Survey SET person = 'unknown' WHERE person IS NULL;
+> ~~~
+> </p>
+> </details>
 
 > ## Generating Insert Statements
 >
@@ -201,17 +202,21 @@ However, this technique is outside the scope of this chapter.
 > What are the pros and cons of this approach?  (Hint: records aren't
 > stored in any particular order.)
 >
-> > ## Solution
-> > #### Advantages
-> > - A version control system will be able to show differences between versions
-> > of the dump file; something it can't do for binary files like databases
-> > - A VCS only saves changes between versions, rather than a complete copy of
-> > each version (save disk space)
-> > - The version control log will explain the reason for the changes in each version
-> > of the database
-> >
-> > #### Disadvantages
-> > - Artificial differences between commits because records don't have a fixed order
+> <details><summary>Solution</summary>
+> <p>
+>
+> #### Advantages
+> - A version control system will be able to show differences between versions
+> of the dump file; something it can't do for binary files like databases
+> - A VCS only saves changes between versions, rather than a complete copy of
+> each version (save disk space)
+> - The version control log will explain the reason for the changes in each version
+> of the database
+>
+> #### Disadvantages
+> - Artificial differences between commits because records don't have a fixed order
+> </p>
+> </details>
 
 [create-table]: https://www.sqlite.org/lang_createtable.html
 [drop-table]: https://www.sqlite.org/lang_droptable.html
