@@ -8,7 +8,7 @@ https://creativecommons.org/licenses/by/4.0/.  The original Software Carpentry e
 
 [sql-novice-survey](https://github.com/swcarpentry/sql-novice-survey) 
 
-### SQLite Notes
+## SQLite Notes
 
 All SQLite date columns must be in a YYYY-MM-DD HH:MM:SS format.  Date range subsetting does not work with the datetime() function if the values in a date column use backslashes as delimiters (YYYY/MM/DD).  
 
