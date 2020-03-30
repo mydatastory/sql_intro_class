@@ -6,8 +6,8 @@ https://creativecommons.org/licenses/by/4.0/.  The original Software Carpentry e
   
 ## Links
 
-[Software Carpentry SQL Course](https://github.com/swcarpentry/sql-novice-survey) 
-[SQL Presentation](https://github.com/danielsmaxwell/presentations/tree/master/_sql)
+- [Software Carpentry SQL Course](https://github.com/swcarpentry/sql-novice-survey) 
+- [SQL Presentation](https://github.com/danielsmaxwell/presentations/tree/master/_sql)
 
 ## SQLite Notes
 
