@@ -8,6 +8,7 @@ https://creativecommons.org/licenses/by/4.0/.  The original Software Carpentry e
 
 - [Software Carpentry SQL Course](https://github.com/swcarpentry/sql-novice-survey) 
 - [SQL Presentation](https://github.com/danielsmaxwell/presentations/tree/master/_sql)
+- [DataOne Education Modules](https://www.dataone.org/education-modules)
 
 ## SQLite Notes
 
@@ -16,7 +17,4 @@ All SQLite date columns must be in a YYYY-MM-DD HH:MM:SS format.  Date range sub
 Click [here](https://www.sqlite.org/lang_datefunc.html) to view the SQLite datetime documentation.
 
 Click [here](https://stackoverflow.com/questions/43893128/blank-values-returns-when-using-greater-than-operator-in-sqlite) for documentation about how SQLite handles null values.
-
-#### Links
-[DataOne Education Modules](https://www.dataone.org/education-modules)
 
